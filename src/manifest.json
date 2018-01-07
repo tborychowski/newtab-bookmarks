@@ -1,12 +1,12 @@
 {
   "manifest_version": 2,
-  "name": "React new tab",
-  "version": "0.1.1",
-  "author": "Ramkumar K R",
+  "name": "newtab-bookmarks",
+  "version": "1.0.0",
+  "author": "Tom",
   "chrome_url_overrides" : {
     "newtab": "index.html"
-  }, 
-  "description":"A Fast and Light weight new tab",
+  },
+  "description":"New tab replacement",
   "permissions": [
     "bookmarks",
     "storage"
