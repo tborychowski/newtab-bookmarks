@@ -8,8 +8,7 @@
     "build": "web-ext build --source-dir ./src"
   },
   "license": "MIT",
-  "dependencies": {
-  },
   "devDependencies": {
+    "web-ext": "^2.3.0"
   }
 }
