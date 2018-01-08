@@ -1,18 +1,22 @@
 # New Tab from Bookmarks folder
-New tab extension for Firefox
+New tab extension for Firefox which displays bookmarks from a `speeddial` folder.
 
+# Usage
+Create a `speeddial` folder in your bookmarks and put some bookmarks there.
+Open new tab.
 
-## Steps to build locally
-1. `npm install -g web-ext`
-2. `npm install`
-3. To test the extension in a temporary firefox profile, use the test script:
+# Steps to build locally
+1. `yarn`
+2. To test the extension in a temporary firefox profile, use the test script:
     ```sh
-    npm run test
+    yarn start
+    ```
+
+3. To build a zip artifact (that can be uploaded to mozilla addons):
+    ```sh
+    yarn build
     ```
 
-4. To create the web-ext artifact for the extension, use the xpi script:
-    ```sh
-    npm run xpi
-    ```
 
-
+# License
+*MIT*
