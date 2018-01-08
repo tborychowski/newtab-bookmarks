@@ -1,11 +1,12 @@
 {
   "name": "newtab-bookmarks",
   "description": "Firefox new tab replacement",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": "Tom",
   "scripts": {
     "start": "web-ext run --source-dir ./src",
-    "build": "web-ext build --source-dir ./src"
+    "lint": "web-ext lint --source-dir ./src",
+    "build": "web-ext build --overwrite-dest --source-dir ./src"
   },
   "license": "MIT",
   "devDependencies": {

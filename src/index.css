@@ -17,7 +17,7 @@ header .btn-back { position: absolute; left: 0; display: none; }
 
 .bookmarks {
 	width: 100%;
-	max-width: 9680px;
+	max-width: 968px;
 	margin: 20px auto;
 	padding: 0 var(--app-size);
 	display: grid;
