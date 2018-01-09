@@ -9,8 +9,9 @@ Open new tab.
 1. `yarn`
 2. To test the extension in a temporary firefox profile, use the test script:
     ```sh
-    yarn start
-    ```
+     yarn start
+	```
+	
 
 3. To build a zip artifact (that can be uploaded to mozilla addons):
     ```sh
