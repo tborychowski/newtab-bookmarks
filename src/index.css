@@ -50,10 +50,11 @@ header .btn-back { position: absolute; left: 0; display: none; }
 
 .item .title {
 	margin-top: 10px;
-	height: 2em;
+	height: 75%;
 	padding: 0 3px;
 	display: block;
 	overflow: hidden;
+	line-height: 1;
 }
 
 .folder .thumb { font-size: 64px; }
