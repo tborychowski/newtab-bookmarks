@@ -1,4 +1,4 @@
-html, body { width: 100%; height: 100%; margin: 0; padding: 0; }
+html, body { margin: 0; padding: 0; }
 body { font: 12px sans-serif; background: #eee; color: #444; }
 body * { box-sizing: border-box; }
 :root { --app-size: 74px; }
@@ -11,9 +11,21 @@ header {
 	text-align: center;
 	font-weight: 0;
 	position: relative;
+	display: flex;
+	align-items: center;
+	justify-items: center;
 }
-header .title { display: inline; padding: 0; margin: 0; font-size: 14px; font-weight: 400; color: #666; }
-header .btn-back { position: absolute; left: 0; display: none; }
+header .title {
+	flex: 1;
+	padding: 0;
+	margin: 0;
+	font-size: 14px;
+	font-weight: 400;
+	color: #666;
+	line-height: 2.3em;
+}
+
+header .btn-back { position: absolute; left: 0; display: none; height: 2.3em; }
 
 .bookmarks {
 	width: 100%;
@@ -50,11 +62,9 @@ header .btn-back { position: absolute; left: 0; display: none; }
 
 .item .title {
 	margin-top: 10px;
-	height: 75%;
 	padding: 0 3px;
 	display: block;
 	overflow: hidden;
-	line-height: 1;
 }
 
 .folder .thumb { font-size: 64px; }

@@ -7,6 +7,7 @@ function printInstructions () {
 	titleEl.innerHTML = 'Create a folder <b>speeddial</b> in your bookmarks, to see links here';
 }
 
+
 // type, title, url
 function getItemHtml (item) {
 	let thumb = '<span class="thumb">📁</span>';
@@ -15,7 +16,7 @@ function getItemHtml (item) {
 		thumb = `<span class="thumb" style="background-image: url(${thumbUrl})"></span>`;
 	}
 	return `<a href="${item.url || item.id}" class="item ${item.type}">
-		${thumb}<span class="title">${item.title}</span></a>`;
+		${thumb}<span class="title" title="${item.title}">${item.title}</span></a>`;
 }
 
 
@@ -23,6 +24,7 @@ function printBookmarks (title, items) {
 	btnBack.style.display = (title === ROOT_FOLDER ? 'none' : 'block');
 	titleEl.innerText = title;
 	bookmarksEl.innerHTML = items.map(getItemHtml).join('');
+	window.ellipses('.item .title');
 }
 
 
