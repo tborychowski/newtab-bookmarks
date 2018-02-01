@@ -15,5 +15,9 @@
     "page": "settings.html",
     "open_in_tab": true,
     "browser_style": true
+  },
+  "icons": {
+    "48": "img/icon.svg",
+    "96": "img/icon.svg"
   }
 }

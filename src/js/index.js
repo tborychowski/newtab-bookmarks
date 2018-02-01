@@ -10,9 +10,9 @@ function printInstructions () {
 
 // type, title, url
 function getItemHtml (item) {
-	let thumb = '<span class="thumb">📁</span>';
+	let thumb = '<span class="thumb folder-thumb"></span>';
 	if (item.type === 'bookmark') {
-		const thumbUrl = `https://icon-fetcher-go.herokuapp.com/icon?size=80&url=${item.url}`;
+		const thumbUrl = `https://icon-fetcher-go.herokuapp.com/icon?size=48..64..128&url=${item.url}`;
 		thumb = `<span class="thumb" style="background-image: url(${thumbUrl})"></span>`;
 	}
 	return `<a href="${item.url || item.id}" class="item ${item.type}">
