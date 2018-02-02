@@ -1,0 +1,30 @@
+html, body { margin: 0; padding: 0; height: 100%; overflow: hidden; }
+body * { box-sizing: border-box; }
+body { font: 16px sans-serif; background: #eee; color: #444; padding: 20px; }
+
+
+label {
+	display: flex;
+	clear: both;
+	margin-bottom: 10px;
+	width: 500px;
+	align-items: center;
+	justify-content: space-between;
+}
+
+label input {
+	width: 405px;
+	padding: 5px 10px;
+	font: inherit;
+}
+
+button {
+	font-size: 16px;
+	padding: 5px 30px;
+}
+
+.btn-submit {
+	font-weight: bold;
+	margin-top: 20px;
+}
+

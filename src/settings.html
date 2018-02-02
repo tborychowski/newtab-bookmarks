@@ -1,17 +1,28 @@
 <!DOCTYPE html>
 <head>
-  <title>Settings</title>
-  <meta charset="UTF-8">
+	<title>New Tab - Bookmarks :: Settings</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link href="img/favicon.ico" rel="shortcut icon" type="image/x-icon">
+	<link rel="stylesheet" href="css/settings.css">
+	<link rel="stylesheet" href="css/toast.css">
 </head>
 <body>
 	<h1>Settings</h1>
 
+	<form id="settingsForm">
+		<label>Folder name <input name="rootfolder" value="speeddial"></label>
+		<label>Icon size <input name="iconsize" value="74"></label>
+		<label>Icon radius <input name="iconradius" value="10"></label>
+		<label>Page bg <input name="pagebg" value="#eee"></label>
+		<label>Page color <input name="pagecolor" value="#444"></label>
 
-	- root folder
-	- icon size
-	- icon curvature
-	- bg image
-	- button <clear cache>
+		<button type="button" class="btn-reset">Reset to defaults</button>
+		<button type="submit" class="btn-submit">Save</button>
+	</form>
 
+	<script src="js/form.js"></script>
+	<script src="js/toast.js"></script>
+	<script src="js/settings.js"></script>
 
 </body>
