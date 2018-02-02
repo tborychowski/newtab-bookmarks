@@ -1,22 +1,78 @@
 /* global browser */
 
 const ROOT_FOLDER = 'Bookmarks';
+const ICON_SERVICE_URL = 'https://icon-service.borychowski.org/?url=';
+const ICON_SERVICE_URL_FALLBACK = 'https://besticon-demo.herokuapp.com/icon?size=40..80..180&url=';
+const FALLBACK_TIMEOUT = 3000;
+
 let btnBack, titleEl, bookmarksEl, rootFolderId, currentFolderId;
+
+
+
+// Fetch with timeout
+function _fetch (url) {
+	return new Promise((resolve, reject) => {
+		setTimeout(() => reject(), FALLBACK_TIMEOUT);
+		fetch(url).then(resolve, reject);
+	});
+}
+
 
 function printInstructions () {
 	titleEl.innerHTML = 'Create a folder <b>speeddial</b> in your bookmarks, to see links here';
 }
 
+// improve this
+function getBestThumb (thumbs) {
+	return thumbs.filter(i => !!i.active)[0].href;
+}
+
+function storeThumb (item) {
+	const store = {};
+	store[item.id] = item.thumbUrl;
+	browser.storage.local.set(store);
+	return item;
+}
+
+
+function getItemThumb (item) {
+	if (item.type !== 'bookmark') item.thumbUrl = '../img/folder.svg';
+	if (item.thumbUrl) return Promise.resolve(item);
+
+	//TODO: add setting to use the alt service
+	return _fetch(ICON_SERVICE_URL + item.url)
+		.then(res => res.json())
+		.then(res => {
+			const thumb = getBestThumb(res);
+			item.thumbUrl = thumb || (ICON_SERVICE_URL_FALLBACK + item.url);
+			if (thumb) storeThumb(item);
+			return item;
+		})
+		.catch(() => {
+			item.thumbUrl = ICON_SERVICE_URL_FALLBACK + item.url;
+			return item;
+		});
+}
+
+
+function getItemsThumbs (items) {
+	return browser.storage.local.get()
+		.then(storageItems => {
+			if (!storageItems || !Object.keys(storageItems).length) titleEl.innerText = 'Loading...';
+			items.forEach(i => i.thumbUrl = storageItems[i.id]);
+			return Promise.all(items.map(getItemThumb));
+		});
+}
+
+
+
 
 // type, title, url
 function getItemHtml (item) {
-	let thumb = '<span class="thumb folder-thumb"></span>';
-	if (item.type === 'bookmark') {
-		const thumbUrl = `https://icon-fetcher-go.herokuapp.com/icon?size=48..64..128&url=${item.url}`;
-		thumb = `<span class="thumb" style="background-image: url(${thumbUrl})"></span>`;
-	}
 	return `<a href="${item.url || item.id}" class="item ${item.type}">
-		${thumb}<span class="title" title="${item.title}">${item.title}</span></a>`;
+		<span class="thumb" style="background-image: url(${item.thumbUrl || ''})"></span>
+		<span class="title" title="${item.title}">${item.title}</span>
+	</a>`;
 }
 
 
@@ -41,6 +97,7 @@ function readFolder (folderId, title = ROOT_FOLDER) {
 	browser.bookmarks
 		.getSubTree(folderId)
 		.then(tree => tree[0].children)
+		.then(getItemsThumbs)
 		.then(items => printBookmarks(title, items));
 }
 
@@ -63,18 +120,22 @@ function onClick (e) {
 }
 
 function init () {
+	btnBack = document.querySelector('.btn-back');
+	titleEl = document.querySelector('.title');
+	bookmarksEl = document.querySelector('.bookmarks');
+
+
+	document.addEventListener('click', onClick);
+	btnBack.addEventListener('click', goBack);
+
+
 	findSpeedDial()
 		.then(id => {
 			if (!id) return printInstructions();
 			rootFolderId = id;
 			readFolder(id, ROOT_FOLDER);
 		});
-	btnBack = document.querySelector('.btn-back');
-	titleEl = document.querySelector('.title');
-	bookmarksEl = document.querySelector('.bookmarks');
-
-	document.addEventListener('click', onClick);
-	btnBack.addEventListener('click', goBack);
 }
+
 
 init();
