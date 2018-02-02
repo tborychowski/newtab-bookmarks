@@ -1,6 +1,8 @@
 # New Tab from Bookmarks folder
 New tab extension for Firefox which displays bookmarks from a `speeddial` folder.
 
+![Screen1](_stuff/screen1.png)
+
 # Usage
 Create a `speeddial` folder in your bookmarks and put some bookmarks there.
 Open new tab.
