@@ -1,7 +1,8 @@
 /* global browser */
 
 const ROOT_FOLDER = 'Bookmarks';
-const ICON_SERVICE_URL = 'https://besticon-demo.herokuapp.com/icon?size=40..70..200&url=';
+// const ICON_SERVICE_URL = 'https://besticon-demo.herokuapp.com/icon?size=40..70..200&url=';
+const ICON_SERVICE_URL = 'https://icon-fetcher-go.herokuapp.com/icon?size=40..70..200&url=';
 
 let btnBack, titleEl, bookmarksEl, rootFolderId, currentFolderId, settings;
 const defaults = {
