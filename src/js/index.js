@@ -1,5 +1,6 @@
 /* global browser */
 
+const DEBUG = false;
 const ROOT_FOLDER = 'Bookmarks';
 // const ICON_SERVICE_URL = 'https://besticon-demo.herokuapp.com/icon?size=40..70..200&url=';
 const ICON_SERVICE_FALLBACK_URL = 'https://icon-fetcher-go.herokuapp.com/icon?size=40..70..200&url=';
@@ -14,6 +15,9 @@ const defaults = {
 	rootfolder: 'speeddial',
 };
 
+function log () {
+	if (DEBUG) console.log.apply(console, arguments);
+}
 
 function printInstructions () {
 	titleEl.innerHTML = `Create a folder <b>${settings.rootfolder}</b> in your bookmarks, to see links here`;
@@ -21,6 +25,7 @@ function printInstructions () {
 
 
 function setItemIcon (item, icon) {
+	log(5, 'setting icon', item, icon);
 	const el = document.querySelector(`.item-${item.id} .thumb`);
 	el.style.backgroundImage = `url(${icon})`;
 }
@@ -34,7 +39,7 @@ function getDomainFromUrl (url) {
 
 function getCachedIcon (url) {
 	url = getDomainFromUrl(url);
-	return browser.storage.local.get(url).then(res => res[url] || {});
+	return browser.storage.local.get(url).then(res => res[url] || null);
 }
 
 function setCachedIcon (url, iconUrl) {
@@ -45,9 +50,11 @@ function setCachedIcon (url, iconUrl) {
 
 
 function fetchIcon (url) {
+	log(3, 'fetching icon', url);
 	return fetch(ICON_SERVICE_URL + url)
 		.then(res => res.json())
 		.then(res => {
+			log(4, 'received icon', res);
 			setCachedIcon(url, res.icon);
 			return Promise.resolve(res);
 		});
@@ -55,8 +62,10 @@ function fetchIcon (url) {
 
 
 function updateItemThumb (item) {
+	log(1, 'updting thumb');
 	getCachedIcon(item.url)
 		.then(icon => {
+			log(2, 'cached icon', icon);
 			if (icon) return Promise.resolve({icon});
 			return fetchIcon(item.url);
 		})

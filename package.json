@@ -6,7 +6,8 @@
   "scripts": {
     "start": "web-ext run --source-dir ./src",
     "lint": "web-ext lint --source-dir ./src",
-    "build": "web-ext build --overwrite-dest --source-dir ./src"
+    "build": "web-ext build --overwrite-dest --source-dir ./src",
+    "sign": "web-ext sign "
   },
   "license": "MIT",
   "devDependencies": {
