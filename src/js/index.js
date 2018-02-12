@@ -2,7 +2,8 @@
 
 const ROOT_FOLDER = 'Bookmarks';
 // const ICON_SERVICE_URL = 'https://besticon-demo.herokuapp.com/icon?size=40..70..200&url=';
-const ICON_SERVICE_URL = 'https://icon-fetcher-go.herokuapp.com/icon?size=40..70..200&url=';
+const ICON_SERVICE_FALLBACK_URL = 'https://icon-fetcher-go.herokuapp.com/icon?size=40..70..200&url=';
+const ICON_SERVICE_URL = 'https://borychowski.org/icon/?url=';
 
 let btnBack, titleEl, bookmarksEl, rootFolderId, currentFolderId, settings;
 const defaults = {
@@ -19,17 +20,63 @@ function printInstructions () {
 }
 
 
-function getItemThumb (item) {
-	if (item.type !== 'bookmark') return '../img/folder.svg';
-	return ICON_SERVICE_URL + item.url;
+function setItemIcon (item, icon) {
+	const el = document.querySelector(`.item-${item.id} .thumb`);
+	el.style.backgroundImage = `url(${icon})`;
 }
+
+function getDomainFromUrl (url) {
+	let parsed;
+	try { parsed = new URL(url); }
+	catch (e) { parsed = {}; }
+	return parsed.host;
+}
+
+function getCachedIcon (url) {
+	url = getDomainFromUrl(url);
+	return browser.storage.local.get(url).then(res => res[url] || {});
+}
+
+function setCachedIcon (url, iconUrl) {
+	const item = {};
+	item[getDomainFromUrl(url)] = iconUrl;
+	return browser.storage.local.set(item);
+}
+
+
+function fetchIcon (url) {
+	return fetch(ICON_SERVICE_URL + url)
+		.then(res => res.json())
+		.then(res => {
+			setCachedIcon(url, res.icon);
+			return Promise.resolve(res);
+		});
+}
+
+
+function updateItemThumb (item) {
+	getCachedIcon(item.url)
+		.then(icon => {
+			if (icon) return Promise.resolve({icon});
+			return fetchIcon(item.url);
+		})
+		.then(res => setItemIcon(item, res.icon))
+		.catch(() => setItemIcon(item, ICON_SERVICE_FALLBACK_URL + item.url));
+
+	return item;
+}
+
+
+// function getItemThumb (item) {
+// 	if (item.type !== 'bookmark') return '../img/folder.svg';
+// 	return ICON_SERVICE_URL + item.url;
+// }
 
 
 // type, title, url
 function getItemHtml (item) {
-	const thumb = getItemThumb(item);
-	return `<a href="${item.url || item.id}" class="item ${item.type}">
-		<span class="thumb" style="background-image: url(${thumb})"></span>
+	return `<a href="${item.url || item.id}" class="item ${item.type} item-${item.id}">
+		<span class="thumb"></span>
 		<span class="title" title="${item.title}">${item.title}</span>
 	</a>`;
 }
@@ -40,6 +87,7 @@ function printBookmarks (title, items) {
 	titleEl.innerText = title;
 	bookmarksEl.innerHTML = items.map(getItemHtml).join('');
 	window.ellipses('.item .title');
+	return items;
 }
 
 
@@ -56,7 +104,8 @@ function readFolder (folderId, title = ROOT_FOLDER) {
 	browser.bookmarks
 		.getSubTree(folderId)
 		.then(tree => tree[0].children)
-		.then(items => printBookmarks(title, items));
+		.then(items => printBookmarks(title, items))
+		.then(items => items.map(updateItemThumb));
 }
 
 function goBack () {
@@ -88,7 +137,7 @@ function init () {
 
 
 	browser.storage.local.get('settings').then(store => {
-		settings = Object.assign({}, defaults, store.settings);
+		settings = Object.assign({}, defaults, store.settings || {});
 
 		document.documentElement.style.setProperty('--color', settings.pagecolor);
 		document.documentElement.style.setProperty('--bg', settings.pagebg);

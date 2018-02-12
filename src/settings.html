@@ -12,8 +12,15 @@
 
 	<form id="settingsForm">
 		<label>Folder name <input name="rootfolder" value="speeddial"></label>
-		<label>Icon size <input name="iconsize" value="74"></label>
-		<label>Icon radius <input name="iconradius" value="10"></label>
+		<label>Icon size
+			<input name="iconsize" value="74" type="range" min="16" max="256">
+			<span class="range-tooltip iconsize-tooltip">74</span>
+		</label>
+		<label>Icon radius
+			<input name="iconradius" value="10" type="range" min="0" max="50">
+			<span class="range-tooltip iconradius-tooltip">10</span>
+		</label>
+
 		<label>Page bg <input name="pagebg" value="#eee"></label>
 		<label>Page color <input name="pagecolor" value="#444"></label>
 
