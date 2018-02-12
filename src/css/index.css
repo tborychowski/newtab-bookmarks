@@ -92,7 +92,17 @@ header .title {
 .item .title { margin-top: 10px; padding: 0; display: block; overflow: hidden; }
 .item.folder .thumb { background-size: 80%; }
 
-
+.item .letter-thumb {
+	background-image: linear-gradient(rgb(240, 240, 240, 0.7), rgb(221, 221, 221, 0.9));
+	font-size: calc(var(--icon-size) - 25px);
+	overflow: hidden;
+	color: #888;
+	text-align: center;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding-top: 13%;
+}
 
 
 

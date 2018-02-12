@@ -35,13 +35,21 @@ label input[type=range] {}
 	padding: 5px 0 0;
 }
 
+small { opacity: 0.7; display: block; margin: 10px 0;  }
+
 button {
 	font-size: 16px;
-	padding: 5px 30px;
+	padding: 10px 30px;
+	border-radius: 5px;
+	border: 1px solid #888;
+	background: #eee;
+	transition: background .2s;
 }
+button:focus,
+button:hover { background: #bbb; }
 
-.btn-submit {
-	font-weight: bold;
-	margin-top: 20px;
-}
+.btn-submit { font-weight: bold; margin-top: 20px; }
+.btn-clear { background: #A01; color: #fff; border: none; margin: 50px 0 0; }
 
+.btn-clear:focus,
+.btn-clear:hover { background: #601;  }

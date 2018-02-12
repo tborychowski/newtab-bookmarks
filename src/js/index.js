@@ -3,7 +3,7 @@
 const DEBUG = false;
 const ROOT_FOLDER = 'Bookmarks';
 // const ICON_SERVICE_URL = 'https://besticon-demo.herokuapp.com/icon?size=40..70..200&url=';
-const ICON_SERVICE_FALLBACK_URL = 'https://icon-fetcher-go.herokuapp.com/icon?size=40..70..200&url=';
+// const ICON_SERVICE_FALLBACK_URL = 'https://icon-fetcher-go.herokuapp.com/icon?size=40..120..256&url=';
 const ICON_SERVICE_URL = 'https://borychowski.org/icon/?url=';
 
 let btnBack, titleEl, bookmarksEl, rootFolderId, currentFolderId, settings;
@@ -23,6 +23,13 @@ function printInstructions () {
 	titleEl.innerHTML = `Create a folder <b>${settings.rootfolder}</b> in your bookmarks, to see links here`;
 }
 
+
+function letterIcon (item) {
+	log(5, 'setting letter icon', item);
+	const el = document.querySelector(`.item-${item.id} .thumb`);
+	el.classList.add('letter-thumb');
+	el.innerText = item.title.substr(0, 1).toUpperCase();
+}
 
 function setItemIcon (item, icon) {
 	log(5, 'setting icon', item, icon);
@@ -54,9 +61,13 @@ function fetchIcon (url) {
 	return fetch(ICON_SERVICE_URL + url)
 		.then(res => res.json())
 		.then(res => {
-			log(4, 'received icon', res);
+			log(4, 'received icon', url, res);
 			setCachedIcon(url, res.icon);
 			return Promise.resolve(res);
+		})
+		.catch(() => {
+			log(4, 'icon not received', url);
+			setCachedIcon(url, 'letter');
 		});
 }
 
@@ -69,12 +80,20 @@ function updateItemThumb (item) {
 	}
 	getCachedIcon(item.url)
 		.then(icon => {
-			log(2, 'cached icon', icon);
-			if (icon) return Promise.resolve({icon});
-			return fetchIcon(item.url);
+			log(2, 'cached icon', item.title, icon);
+			if (!icon) return fetchIcon(item.url);
+			if (icon === 'letter') return letterIcon(item);
+			return Promise.resolve({icon});
 		})
-		.then(res => setItemIcon(item, res.icon))
-		.catch(() => setItemIcon(item, ICON_SERVICE_FALLBACK_URL + item.url));
+		.then(res => {
+			if (!res || !res.icon) throw 'Icon not found!';
+			setItemIcon(item, res.icon);
+		})
+		// .catch(() => setItemIcon(item, ICON_SERVICE_FALLBACK_URL + item.url));
+		.catch(() => {
+			setCachedIcon(item.url, 'letter');
+			letterIcon(item);
+		});
 	return item;
 }
 

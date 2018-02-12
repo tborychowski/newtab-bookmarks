@@ -11,9 +11,7 @@ const defaults = {
 
 const $ = s => document.querySelector(s);
 const notify = () => new Toast('Settings saved', 'info');
-
 const save = settings => browser.storage.local.set({ settings }).then(notify);
-
 
 function setOther (things) {
 	if (things.iconsize) iconsizeTooltip.innerText = things.iconsize;
@@ -27,11 +25,15 @@ function onSubmit (e) {
 	save(form.get());
 }
 
-function reset () {
-	save(defaults).then(() => {
-		form.set(defaults);
-		setOther(defaults);
-	});
+function reset (persist) {
+	form.set(defaults);
+	setOther(defaults);
+	if (persist === true) save(defaults);
+}
+
+
+function clearCache () {
+	browser.storage.local.clear().then(() => reset(true));
 }
 
 
@@ -58,6 +60,7 @@ function init () {
 	$('input[name=pagebg]').addEventListener('input', e => setOther({ pagebg: e.target.value }));
 
 	$('.btn-reset').addEventListener('click', reset);
+	$('.btn-clear').addEventListener('click', clearCache);
 
 	initSettings();
 }
