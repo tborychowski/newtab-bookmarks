@@ -62,7 +62,11 @@ function fetchIcon (url) {
 
 
 function updateItemThumb (item) {
-	log(1, 'updting thumb');
+	log(1, 'updting thumb', item);
+	if (item.type !== 'bookmark') {
+		setItemIcon(item, '../img/folder.svg');
+		return item;
+	}
 	getCachedIcon(item.url)
 		.then(icon => {
 			log(2, 'cached icon', icon);
@@ -71,15 +75,8 @@ function updateItemThumb (item) {
 		})
 		.then(res => setItemIcon(item, res.icon))
 		.catch(() => setItemIcon(item, ICON_SERVICE_FALLBACK_URL + item.url));
-
 	return item;
 }
-
-
-// function getItemThumb (item) {
-// 	if (item.type !== 'bookmark') return '../img/folder.svg';
-// 	return ICON_SERVICE_URL + item.url;
-// }
 
 
 // type, title, url

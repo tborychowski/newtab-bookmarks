@@ -1,7 +1,7 @@
 {
   "name": "newtab-bookmarks",
   "description": "Firefox new tab replacement",
-  "version": "1.2.0",
+  "version": "1.2.2",
   "author": "Tom",
   "scripts": {
     "start": "web-ext run --source-dir ./src",
