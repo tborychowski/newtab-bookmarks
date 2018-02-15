@@ -93,15 +93,19 @@ header .title {
 .item.folder .thumb { background-size: 80%; }
 
 .item .letter-thumb {
-	background-image: linear-gradient(rgb(240, 240, 240, 0.7), rgb(221, 221, 221, 0.9));
-	font-size: calc(var(--icon-size) - 25px);
+	background-image: linear-gradient(rgb(255, 255, 255, 0.7), rgb(230, 230, 230, 0.9));
 	overflow: hidden;
-	color: #888;
+	color: #555;
 	text-align: center;
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	padding-top: 13%;
+	padding-top: 15%;
+	font-family: helvetica, arial, sans-serif;
+	font-size: calc(var(--icon-size) - 25px);
+	font-weight: 600;
+	line-height: 1;
+	text-shadow: 0 1px 0 #fff;
 }
 
 
