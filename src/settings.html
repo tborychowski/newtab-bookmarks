@@ -12,6 +12,10 @@
 
 	<form id="settingsForm">
 		<label>Folder name <input name="rootfolder" value="speeddial"></label>
+		<label>Grid width
+			<input name="maxwidth" value="968" type="range" min="400" max="2000">
+			<span class="range-tooltip maxwidth-tooltip">968</span>
+		</label>
 		<label>Icon size
 			<input name="iconsize" value="74" type="range" min="16" max="256">
 			<span class="range-tooltip iconsize-tooltip">74</span>
@@ -28,7 +32,7 @@
 		<button type="submit" class="btn-submit">Save</button>
 	</form>
 
-	<button type="button" class="btn-clear">Clear browser cache</button>
+	<button type="button" class="btn-clear">Clear cache</button>
 	<small>This will remove all local cache for icons and settings!</small>
 
 	<script src="js/form.js"></script>

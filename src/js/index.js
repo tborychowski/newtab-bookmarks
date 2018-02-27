@@ -27,6 +27,7 @@ function printInstructions () {
 function letterIcon (item) {
 	log(5, 'setting letter icon', item);
 	const el = document.querySelector(`.item-${item.id} .thumb`);
+	if (!el) return;
 	el.classList.add('letter-thumb');
 	el.innerText = item.title.substr(0, 1).toUpperCase();
 }
@@ -108,6 +109,7 @@ function getItemHtml (item) {
 
 
 function printBookmarks (title, items) {
+	if (title === settings.rootfolder) title = ROOT_FOLDER;
 	btnBack.style.display = (title === ROOT_FOLDER ? 'none' : 'block');
 	titleEl.innerText = title;
 	bookmarksEl.innerHTML = items.map(getItemHtml).join('');
@@ -124,11 +126,14 @@ function findSpeedDial (title = 'speeddial') {
 
 
 function readFolder (folderId, title = ROOT_FOLDER) {
-	if (!folderId) return;
+	if (!folderId) return Promise.resolve();
 	currentFolderId = folderId;
-	browser.bookmarks
+	return browser.bookmarks
 		.getSubTree(folderId)
-		.then(tree => tree[0].children)
+		.then(tree => {
+			if (tree[0].title) title = tree[0].title;
+			return tree[0].children;
+		})
 		.then(items => printBookmarks(title, items))
 		.then(items => items.map(updateItemThumb));
 }
@@ -156,10 +161,8 @@ function init () {
 	titleEl = document.querySelector('.title');
 	bookmarksEl = document.querySelector('.bookmarks');
 
-
 	document.addEventListener('click', onClick);
 	btnBack.addEventListener('click', goBack);
-
 
 	browser.storage.local.get('settings').then(store => {
 		settings = Object.assign({}, defaults, store.settings || {});
@@ -168,12 +171,16 @@ function init () {
 		document.documentElement.style.setProperty('--bg', settings.pagebg);
 		document.documentElement.style.setProperty('--icon-size', settings.iconsize + 'px');
 		document.documentElement.style.setProperty('--icon-radius', settings.iconradius + 'px');
+		document.documentElement.style.setProperty('--max-width', settings.maxwidth + 'px');
 
 		findSpeedDial(settings.rootfolder)
 			.then(id => {
 				if (!id) return printInstructions();
 				rootFolderId = id;
-				readFolder(id, ROOT_FOLDER);
+				return readFolder(id, ROOT_FOLDER);
+			})
+			.then(() => {
+				history.replaceState(null, document.title, '');
 			});
 	});
 }

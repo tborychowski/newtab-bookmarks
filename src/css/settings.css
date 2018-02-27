@@ -1,6 +1,6 @@
 html, body { margin: 0; padding: 0; height: 100%; overflow: hidden; }
-body * { box-sizing: border-box; }
-body { font: 16px sans-serif; background: #eee; color: #444; padding: 20px; }
+body { box-sizing: border-box; font: 16px sans-serif; background: #eee; color: #444; padding: 20px; }
+body * { box-sizing: inherit; }
 
 
 label {
@@ -14,7 +14,7 @@ label {
 }
 
 label input {
-	width: 405px;
+	width: 400px;
 	padding: 5px 10px;
 	margin: 0;
 	font: inherit;
@@ -25,8 +25,8 @@ label input[type=range] {}
 .range-tooltip {
 	position: absolute;
 	top: -4px;
-	right: -50px;
-	width: 40px;
+	right: -60px;
+	width: 50px;
 	height: 24px;
 	background: #888;
 	color: #fff;
