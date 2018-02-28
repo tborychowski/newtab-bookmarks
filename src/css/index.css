@@ -20,7 +20,7 @@ body * { box-sizing: inherit; }
 
 header {
 	width: 100%;
-	max-width: var(--max-width);
+	max-width: calc(var(--max-width) - var(--icon-size) - var(--icon-size) + 20px);
 	margin: 20px auto;
 	font-size: 13px;
 	text-align: center;

@@ -1,13 +1,12 @@
 /* global browser */
 
 const DEBUG = false;
-const ROOT_FOLDER = 'Bookmarks';
-// const ICON_SERVICE_URL = 'https://besticon-demo.herokuapp.com/icon?size=40..70..200&url=';
-// const ICON_SERVICE_FALLBACK_URL = 'https://icon-fetcher-go.herokuapp.com/icon?size=40..120..256&url=';
+const ROOT_FOLDER = { title: 'Bookmarks', id: null };
 const ICON_SERVICE_URL = 'https://borychowski.org/icon/?url=';
 
-let btnBack, titleEl, bookmarksEl, rootFolderId, currentFolderId, settings;
+let btnBack, titleEl, bookmarksEl, currentFolderId, settings;
 const defaults = {
+	maxwidth: 968,
 	iconradius: 10,
 	iconsize: '74',
 	pagebg: '#eee',
@@ -15,9 +14,12 @@ const defaults = {
 	rootfolder: 'speeddial',
 };
 
+
+
 function log () {
 	if (DEBUG) console.log.apply(console, arguments);
 }
+
 
 function printInstructions () {
 	titleEl.innerHTML = `Create a folder <b>${settings.rootfolder}</b> in your bookmarks, to see links here`;
@@ -32,11 +34,13 @@ function letterIcon (item) {
 	el.innerText = item.title.substr(0, 1).toUpperCase();
 }
 
+
 function setItemIcon (item, icon) {
 	log(5, 'setting icon', item, icon);
 	const el = document.querySelector(`.item-${item.id} .thumb`);
 	el.style.backgroundImage = `url(${icon})`;
 }
+
 
 function getDomainFromUrl (url) {
 	let parsed;
@@ -45,10 +49,12 @@ function getDomainFromUrl (url) {
 	return parsed.host;
 }
 
+
 function getCachedIcon (url) {
 	url = getDomainFromUrl(url);
 	return browser.storage.local.get(url).then(res => res[url] || null);
 }
+
 
 function setCachedIcon (url, iconUrl) {
 	const item = {};
@@ -90,7 +96,6 @@ function updateItemThumb (item) {
 			if (!res || !res.icon) throw 'Icon not found!';
 			setItemIcon(item, res.icon);
 		})
-		// .catch(() => setItemIcon(item, ICON_SERVICE_FALLBACK_URL + item.url));
 		.catch(() => {
 			setCachedIcon(item.url, 'letter');
 			letterIcon(item);
@@ -108,53 +113,65 @@ function getItemHtml (item) {
 }
 
 
-function printBookmarks (title, items) {
-	if (title === settings.rootfolder) title = ROOT_FOLDER;
-	btnBack.style.display = (title === ROOT_FOLDER ? 'none' : 'block');
-	titleEl.innerText = title;
-	bookmarksEl.innerHTML = items.map(getItemHtml).join('');
+function printBookmarks (node) {
+	btnBack.style.display = (node.id === ROOT_FOLDER.id ? 'none' : 'block');
+	titleEl.innerText = node.title;
+	bookmarksEl.innerHTML = node.children.map(getItemHtml).join('');
 	window.ellipses('.item .title');
-	return items;
+	return node.children;
 }
 
 
 function findSpeedDial (title = 'speeddial') {
 	return browser.bookmarks
 		.search({ title, url: undefined })
-		.then(res => res && res.length && res[0].id);
+		.then(res => res.length && res[0])
+		.then(res => {
+			if (!res) return;
+			ROOT_FOLDER.id = res.id;
+			ROOT_FOLDER.title = res.title;
+			return res.id;
+		});
 }
 
 
-function readFolder (folderId, title = ROOT_FOLDER) {
-	if (!folderId) return Promise.resolve();
+function logState (id) {
+	if (history.state && history.state.id && history.state.id === id) return;
+	const fn = (id === ROOT_FOLDER.id) ? 'replaceState' : 'pushState';
+	window.history[fn]({ id }, document.title, '');
+}
+
+
+function readFolder (folderId, skipState = false) {
+	if (!folderId) {
+		printInstructions();
+		return Promise.resolve();
+	}
 	currentFolderId = folderId;
+	if (skipState !== true) logState(folderId);
+
 	return browser.bookmarks
 		.getSubTree(folderId)
-		.then(tree => {
-			if (tree[0].title) title = tree[0].title;
-			return tree[0].children;
-		})
-		.then(items => printBookmarks(title, items))
+		.then(tree => tree[0])
+		.then(printBookmarks)
 		.then(items => items.map(updateItemThumb));
 }
 
+
 function goBack () {
-	if (!currentFolderId || currentFolderId === rootFolderId) return;
-	browser.bookmarks
-		.get(currentFolderId)
-		.then(item => {
-			if (item && item.length) readFolder(item[0].parentId);
-		});
+	if (!currentFolderId || currentFolderId === ROOT_FOLDER.id) return;
+	history.back();
 }
+
 
 function onClick (e) {
 	const target = e.target.closest('.folder');
 	if (target) {
 		e.preventDefault();
-		const id = target.getAttribute('href');
-		if (id) readFolder(id, target.querySelector('.title').innerText);
+		readFolder(target.getAttribute('href'));
 	}
 }
+
 
 function init () {
 	btnBack = document.querySelector('.btn-back');
@@ -175,15 +192,14 @@ function init () {
 
 		findSpeedDial(settings.rootfolder)
 			.then(id => {
-				if (!id) return printInstructions();
-				rootFolderId = id;
-				return readFolder(id, ROOT_FOLDER);
-			})
-			.then(() => {
-				history.replaceState(null, document.title, '');
+				if (history.state && history.state.id) id = history.state.id;
+				readFolder(id);
 			});
 	});
+
+	window.onpopstate = e => { if (e.state && e.state.id) readFolder(e.state.id, true); };
 }
+
 
 
 init();
