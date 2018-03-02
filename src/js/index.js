@@ -3,15 +3,19 @@
 const DEBUG = false;
 const ROOT_FOLDER = { title: 'Bookmarks', id: null };
 const ICON_SERVICE_URL = 'https://borychowski.org/icon/?url=';
+const THUMB_SERVICE_URL = 'https://api.letsvalidate.com/v1/thumbs/?width=256&height=256&url=';
 
 let btnBack, titleEl, bookmarksEl, currentFolderId, settings;
 const defaults = {
-	maxwidth: 968,
+	gridwidth: 968,
+	gridgap: 74,
 	iconradius: 10,
+	showlabels: true,
 	iconsize: '74',
 	pagebg: '#eee',
 	pagecolor: '#444',
 	rootfolder: 'speeddial',
+	mode: 'icons',
 };
 
 
@@ -22,7 +26,7 @@ function log () {
 
 
 function printInstructions () {
-	titleEl.innerHTML = `Create a folder <b>${settings.rootfolder}</b> in your bookmarks, to see links here`;
+	titleEl.innerHTML = `Create a folder <b>${settings.rootfolder}</b> in your bookmarks, to see links here or edit settings.`;
 }
 
 
@@ -63,6 +67,14 @@ function setCachedIcon (url, iconUrl) {
 }
 
 
+function fetchThumbIcon (url) {
+	log(3, 'fetching thumb icon', url);
+	const icon = THUMB_SERVICE_URL + url;
+	setCachedIcon(url, icon);
+	return Promise.resolve({ icon });
+}
+
+
 function fetchIcon (url) {
 	log(3, 'fetching icon', url);
 	return fetch(ICON_SERVICE_URL + url)
@@ -88,7 +100,11 @@ function updateItemThumb (item) {
 	getCachedIcon(item.url)
 		.then(icon => {
 			log(2, 'cached icon', item.title, icon);
-			if (!icon) return fetchIcon(item.url);
+			if (!icon) {
+				console.log(settings.mode);
+				if (settings.mode === 'thumbs') return fetchThumbIcon(item.url);
+				else return fetchIcon(item.url);
+			}
 			if (icon === 'letter') return letterIcon(item);
 			return Promise.resolve({icon});
 		})
@@ -188,10 +204,13 @@ function init () {
 		document.documentElement.style.setProperty('--bg', settings.pagebg);
 		document.documentElement.style.setProperty('--icon-size', settings.iconsize + 'px');
 		document.documentElement.style.setProperty('--icon-radius', settings.iconradius + 'px');
-		document.documentElement.style.setProperty('--max-width', settings.maxwidth + 'px');
+		document.documentElement.style.setProperty('--grid-width', settings.gridwidth + 'px');
+		document.documentElement.style.setProperty('--grid-gap', settings.gridgap + 'px');
+		document.documentElement.style.setProperty('--show-labels', settings.showlabels ? 'block' : 'none');
 
 		findSpeedDial(settings.rootfolder)
 			.then(id => {
+				if (!ROOT_FOLDER.id) return printInstructions();
 				if (history.state && history.state.id) id = history.state.id;
 				readFolder(id);
 			});

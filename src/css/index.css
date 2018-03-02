@@ -4,7 +4,9 @@ html, body { margin: 0; padding: 0; height: 100%; width: 100%; overflow: hidden;
 	--icon-radius: 10px;
 	--color: #444;
 	--bg: #eee;
-	--max-width: 968px;
+	--grid-width: 968px;
+	--grid-gap: 5px;
+	--show-labels: block;
 }
 
 body {
@@ -20,7 +22,7 @@ body * { box-sizing: inherit; }
 
 header {
 	width: 100%;
-	max-width: calc(var(--max-width) - var(--icon-size) - var(--icon-size) + 20px);
+	max-width: calc(var(--grid-width) - var(--icon-size) - var(--icon-size) + 20px);
 	margin: 20px auto;
 	font-size: 13px;
 	text-align: center;
@@ -62,11 +64,11 @@ header .title {
 
 .bookmarks {
 	width: 100%;
-	max-width: var(--max-width);
+	max-width: var(--grid-width);
 	margin: 20px auto;
 	padding: 0 var(--icon-size) 60px;
 	display: grid;
-	grid-gap: 74px;
+	grid-gap: var(--grid-gap);
 	grid-auto-rows: minmax(var(--icon-size), auto);
 	grid-template-columns: repeat(auto-fill, minmax(var(--icon-size), 1fr));
 }
@@ -93,7 +95,12 @@ header .title {
 	background-position: center;
 }
 
-.item .title { margin-top: 10px; padding: 0; display: block; overflow: hidden; }
+.item .title {
+	margin-top: 10px;
+	padding: 0;
+	overflow: hidden;
+	display: var(--show-labels);
+}
 .item.folder .thumb { background-size: 80%; }
 
 .item .letter-thumb {

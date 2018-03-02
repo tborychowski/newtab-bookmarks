@@ -11,29 +11,66 @@
 	<h1>Settings</h1>
 
 	<form id="settingsForm">
-		<label>Folder name <input name="rootfolder" value="speeddial"></label>
-		<label>Grid width
-			<input name="maxwidth" value="968" type="range" min="400" max="2000">
-			<span class="range-tooltip maxwidth-tooltip">968</span>
-		</label>
-		<label>Icon size
+		<div class="row">
+			<label>Folder name</label>
+			<input name="rootfolder" value="speeddial">
+		</div>
+
+		<div class="row">
+			<label>Mode</label>
+			<label><input name="mode" type="radio" value="icons" checked=""> Icons</label>
+			<label><input name="mode" type="radio" value="thumbs"> Thumbnails (experimental)</label>
+		</div>
+
+		<div class="row">
+			<label>Grid width</label>
+			<input name="gridwidth" value="968" type="range" min="400" max="2000">
+			<span class="range-tooltip gridwidth-tooltip" data-for="gridwidth"></span>
+		</div>
+
+		<div class="row">
+			<label>Grid spacing</label>
+			<input name="gridgap" value="74" type="range" min="0" max="256">
+			<span class="range-tooltip gridgap-tooltip" data-for="gridgap"></span>
+		</div>
+
+		<div class="row">
+			<label>Icon size</label>
 			<input name="iconsize" value="74" type="range" min="16" max="256">
-			<span class="range-tooltip iconsize-tooltip">74</span>
-		</label>
-		<label>Icon radius
+			<span class="range-tooltip iconsize-tooltip" data-for="iconsize"></span>
+		</div>
+
+		<div class="row">
+			<label>Icon radius</label>
 			<input name="iconradius" value="10" type="range" min="0" max="50">
-			<span class="range-tooltip iconradius-tooltip">10</span>
-		</label>
+			<span class="range-tooltip iconradius-tooltip" data-for="iconradius"></span>
+		</div>
 
-		<label>Page bg <input name="pagebg" value="#eee"></label>
-		<label>Page color <input name="pagecolor" value="#444"></label>
+		<div class="row">
+			<label>Show labels</label>
+			<input name="showlabels" type="checkbox" checked>
+		</div>
 
-		<button type="button" class="btn-reset">Reset to defaults</button>
-		<button type="submit" class="btn-submit">Save</button>
+		<div class="row">
+			<label>Page bg</label>
+			<input name="pagebg" value="#eee">
+		</div>
+
+		<div class="row">
+			<label>Page color</label>
+			<input name="pagecolor" value="#444">
+		</div>
+
+		<div class="row buttons">
+			<button type="button" class="btn-reset">Reset to defaults</button>
+			<button type="submit" class="btn-submit">Save</button>
+		</div>
 	</form>
 
 	<button type="button" class="btn-clear">Clear cache</button>
 	<small>This will remove all local cache for icons and settings!</small>
+
+	<footer></footer>
 
 	<script src="js/form.js"></script>
 	<script src="js/toast.js"></script>

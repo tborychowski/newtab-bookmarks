@@ -1,49 +1,60 @@
 /* global browser, Form, Toast */
 
-let form, iconradiusTooltip, iconsizeTooltip, maxwidthTooltip;
+let form;
 const defaults = {
-	maxwidth: 968,
+	gridwidth: 968,
+	gridgap: 74,
 	iconradius: 10,
+	showlabels: true,
 	iconsize: '74',
 	pagebg: '#eee',
 	pagecolor: '#444',
 	rootfolder: 'speeddial',
+	mode: 'icons',
 };
-
+let storedSettings = null;
 const $ = s => document.querySelector(s);
 const notify = () => new Toast('Settings saved', 'info');
 const save = settings => browser.storage.local.set({ settings }).then(notify);
 
-function setOther (things) {
-	if (things.maxwidth) maxwidthTooltip.innerText = things.maxwidth;
-	if (things.iconsize) iconsizeTooltip.innerText = things.iconsize;
-	if (things.iconradius) iconradiusTooltip.innerText = things.iconradius;
+function updateInputValue (things) {
 	if (things.pagecolor) document.body.style.color = things.pagecolor;
 	if (things.pagebg) document.body.style.background = things.pagebg;
+
+	Object.keys(things).forEach(name => {
+		const tooltip = $(`.${name}-tooltip`);
+		if (tooltip) tooltip.innerText = things[name];
+	});
 }
 
 function onSubmit (e) {
 	e.preventDefault();
-	save(form.get());
+	const newSettings = form.get();
+	if (!storedSettings || storedSettings.mode === newSettings.mode) save(newSettings);
+	else clearCache().then(() => save(newSettings));
+	storedSettings = newSettings;
 }
 
 function reset (persist) {
 	form.set(defaults);
-	setOther(defaults);
-	if (persist === true) save(defaults);
+	updateInputValue(defaults);
+	if (persist === true) return save(defaults);
+	else return Promise.resolve();
 }
 
 
+
 function clearCache () {
-	browser.storage.local.clear().then(() => reset(true));
+	return browser.storage.local.clear();
 }
 
 
 function initSettings () {
 	browser.storage.local.get('settings').then(store => {
-		const merged = Object.assign({}, defaults, store.settings || {});
+		storedSettings = store.settings || {};
+		const merged = Object.assign({}, defaults, storedSettings);
 		form.set(merged);
-		setOther(merged);
+		updateInputValue(merged);
 	});
 }
 
@@ -53,19 +64,19 @@ function init () {
 	form = new Form(formEl);
 	formEl.addEventListener('submit', onSubmit);
 
-	maxwidthTooltip = $('.maxwidth-tooltip');
-	iconradiusTooltip = $('.iconradius-tooltip');
-	iconsizeTooltip = $('.iconsize-tooltip');
+	document.querySelectorAll('input').forEach(input => {
+		input.addEventListener('input', e => {
+			const inp = {};
+			inp[e.target.name] = e.target.value;
+			updateInputValue(inp);
+		});
+	});
 
-	$('input[name=maxwidth]').addEventListener('input', e => setOther({ maxwidth: e.target.value }));
-	$('input[name=iconsize]').addEventListener('input', e => setOther({ iconsize: e.target.value }));
-	$('input[name=iconradius]').addEventListener('input', e => setOther({ iconradius: e.target.value }));
-	$('input[name=pagecolor]').addEventListener('input', e => setOther({ pagecolor: e.target.value }));
-	$('input[name=pagebg]').addEventListener('input', e => setOther({ pagebg: e.target.value }));
 
 	$('.btn-reset').addEventListener('click', reset);
-	$('.btn-clear').addEventListener('click', clearCache);
+	$('.btn-clear').addEventListener('click', () => clearCache.then(() => reset(true)));
 
+	updateInputValue(defaults);
 	initSettings();
 }
 
