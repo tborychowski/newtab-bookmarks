@@ -101,7 +101,6 @@ function updateItemThumb (item) {
 		.then(icon => {
 			log(2, 'cached icon', item.title, icon);
 			if (!icon) {
-				console.log(settings.mode);
 				if (settings.mode === 'thumbs') return fetchThumbIcon(item.url);
 				else return fetchIcon(item.url);
 			}

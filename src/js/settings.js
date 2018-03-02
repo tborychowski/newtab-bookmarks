@@ -74,7 +74,7 @@ function init () {
 
 
 	$('.btn-reset').addEventListener('click', reset);
-	$('.btn-clear').addEventListener('click', () => clearCache.then(() => reset(true)));
+	$('.btn-clear').addEventListener('click', () => clearCache().then(() => reset(true)));
 
 	updateInputValue(defaults);
 	initSettings();
