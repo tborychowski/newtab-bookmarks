@@ -53,22 +53,28 @@ footer { height: 40px;  }
 small { opacity: 0.7; display: block; margin: 10px 0;  }
 
 
+
 .buttons { margin-top: 20px;  }
 
 button {
 	font-size: 16px;
 	padding: 10px 30px;
 	border-radius: 5px;
-	border: 1px solid #888;
-	background: #eee;
 	transition: background .2s;
 	margin-right: 10px;
+	border: 1px solid #888;
+	background: #eee;
 }
 button:focus,
-button:hover { background: #bbb; }
+button:hover { background: rgba(100,100,100,0.1); }
+button:active { background: rgba(100,100,100,0.3); }
 
-.btn-submit { font-weight: bold;  }
-.btn-clear { background: #A01; color: #fff; border: none; margin: 50px 0 0; }
+.btn-submit { font-weight: bold;  border-color: green; color: green; }
+.btn-submit:focus,
+.btn-submit:hover { background: rgba(0,255,0,0.1);  }
+.btn-submit:active { background: rgba(0,255,0,0.3);  }
 
+.btn-clear { border-color: #A01; color: #A01; margin: 50px 0 0; }
 .btn-clear:focus,
-.btn-clear:hover { background: #601;  }
+.btn-clear:hover { background: rgba(102,0,17,0.1);  }
+.btn-clear:active { background: rgba(102,0,17,0.3);  }
