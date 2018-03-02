@@ -3,7 +3,8 @@
 const DEBUG = false;
 const ROOT_FOLDER = { title: 'Bookmarks', id: null };
 const ICON_SERVICE_URL = 'https://borychowski.org/icon/?url=';
-const THUMB_SERVICE_URL = 'https://api.letsvalidate.com/v1/thumbs/?width=256&height=256&url=';
+// const THUMB_SERVICE_URL = 'https://api.letsvalidate.com/v1/thumbs/?width=256&height=256&url=';
+const THUMB_SERVICE_URL = 'https://api.letsvalidate.com/v1/thumbs/?url=';
 
 let btnBack, titleEl, bookmarksEl, currentFolderId, settings;
 const defaults = {
