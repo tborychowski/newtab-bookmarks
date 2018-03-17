@@ -9,7 +9,9 @@
   "description":"New tab replacement",
   "permissions": [
     "bookmarks",
-    "storage"
+    "storage",
+    "<all_urls>",
+    "tabs"
   ],
   "options_ui": {
     "page": "settings.html",

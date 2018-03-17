@@ -5,6 +5,8 @@ const ROOT_FOLDER = { title: 'Bookmarks', id: null };
 const ICON_SERVICE_URL = 'https://borychowski.org/icon/?url=';
 // const THUMB_SERVICE_URL = 'https://api.letsvalidate.com/v1/thumbs/?width=256&height=256&url=';
 const THUMB_SERVICE_URL = 'https://api.letsvalidate.com/v1/thumbs/?url=';
+//favicongrabber.com/api/grab/github.com
+
 
 let btnBack, titleEl, bookmarksEl, currentFolderId, settings;
 const defaults = {
@@ -190,6 +192,7 @@ function onClick (e) {
 
 
 function init () {
+
 	btnBack = document.querySelector('.btn-back');
 	titleEl = document.querySelector('.title');
 	bookmarksEl = document.querySelector('.bookmarks');
@@ -217,6 +220,44 @@ function init () {
 	});
 
 	window.onpopstate = e => { if (e.state && e.state.id) readFolder(e.state.id, true); };
+
+
+	openTab('https://forgeofempires.com/')
+		.then(screenshotTab)
+		.then(closeTab);
+
+}
+const DELAY = 1000;
+
+function closeTab (tab) {
+	return browser.tabs.remove(tab.id);
+}
+
+function screenshotTab (tab) {
+	return new Promise (resolve => {
+		setTimeout(() => {
+			browser.tabs.captureTab(tab.id).then(img => {
+				document.querySelector('.thumb').style.backgroundImage = `url(${img})`;
+				console.log(img);
+				resolve(tab);
+			});
+		}, DELAY);
+	});
+}
+
+function openTab (url) {
+	return new Promise (resolve => {
+		browser.tabs
+			.create({ url, active: false })
+			.then(tab => {
+				if (browser.tabs.hide) browser.tabs.hide(tab.id);
+				browser.tabs
+					.onUpdated
+					.addListener((tabId, ev, newTab) => {
+						if (ev.status === 'complete') resolve(newTab);
+					});
+			});
+	});
 }
 
 
