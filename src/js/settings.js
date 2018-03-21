@@ -36,6 +36,7 @@ function onSubmit (e) {
 }
 
 function reset (persist) {
+	defaults.rootfolder = form.get().rootfolder;	// don't reset this!
 	form.set(defaults);
 	updateInputValue(defaults);
 	if (persist === true) return save(defaults);
