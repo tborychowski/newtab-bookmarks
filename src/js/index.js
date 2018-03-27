@@ -3,7 +3,6 @@
 const ROOT_FOLDER = { title: 'Bookmarks', id: null };
 const ICON_SERVICE_URL = 'https://borychowski.org/icon/?url=';
 const THUMB_SERVICE_URL = 'https://api.letsvalidate.com/v1/thumbs/?url=';
-//favicongrabber.com/api/grab/github.com
 
 
 let btnBack, titleEl, bookmarksEl, currentFolderId, settings;
@@ -316,41 +315,3 @@ function fetchIcon (url) {
 			setCachedIcon(url, 'letter');
 		});
 }
-
-
-// const DELAY = 1000;
-// openTab('https://forgeofempires.com/').then(screenshotTab).then(closeTab);
-
-
-// function closeTab (tab) {
-// 	return browser.tabs.remove(tab.id);
-// }
-
-// function screenshotTab (tab) {
-// 	return new Promise (resolve => {
-// 		setTimeout(() => {
-// 			browser.tabs.captureTab(tab.id, { format: 'jpeg', quality: 85 }).then(img => {
-// 				document.querySelector('.thumb').style.backgroundImage = `url(${img})`;
-// 				console.log(('' + img).length / 1024);
-// 				resolve(tab);
-// 			});
-// 		}, DELAY);
-// 	});
-// }
-
-// function openTab (url) {
-// 	return new Promise (resolve => {
-// 		browser.tabs
-// 			.create({ url, active: false })
-// 			.then(tab => {
-// 				if (browser.tabs.hide) browser.tabs.hide(tab.id);
-// 				browser.tabs
-// 					.onUpdated
-// 					.addListener((tabId, ev, newTab) => {
-// 						if (tabId === tab.id && ev.status === 'complete') resolve(newTab);
-// 					});
-// 			});
-// 	});
-// }
-
-
