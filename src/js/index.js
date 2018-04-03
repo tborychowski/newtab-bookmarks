@@ -1,7 +1,7 @@
 /* global browser */
 
 const ROOT_FOLDER = { title: 'Bookmarks', id: null };
-const ICON_SERVICE_URL = 'https://borychowski.org/icon/?url=';
+const ICON_SERVICE_URL = 'https://borychowski.org/icon/beta.php?url=';
 const THUMB_SERVICE_URL = 'https://api.letsvalidate.com/v1/thumbs/?url=';
 
 
@@ -90,6 +90,30 @@ function updateItemThumb (item) {
 		});
 	return item;
 }
+
+
+function getBaseUrl (url) {
+	let baseUrl;
+	try { baseUrl = new URL(url); }
+	catch (e) { baseUrl = {}; }
+	return (baseUrl.origin || url).replace(/\/$/, '');
+}
+
+
+
+function fetchIcon (url) {
+	url = getBaseUrl(url);
+	return fetch(ICON_SERVICE_URL + url)
+		.then(res => res.json())
+		.then(res => {
+			setCachedIcon(url, res.icon);
+			return Promise.resolve(res);
+		})
+		.catch(() => {
+			setCachedIcon(url, 'letter');
+		});
+}
+
 
 
 // type, title, url
@@ -202,6 +226,12 @@ init();
 
 
 
+
+
+
+
+/*
+
 function getBaseUrl (url) {
 	let baseUrl;
 	try { baseUrl = new URL(url); }
@@ -285,7 +315,7 @@ function getFavicon (finalUrl) {
 
 
 function getFallbackIcon (url) {
-	return fetch(ICON_SERVICE_URL + url).then(res => res.json())
+	return fetch(ICON_SERVICE_URL + url).then(res => res.json());
 }
 
 
@@ -315,3 +345,4 @@ function fetchIcon (url) {
 			setCachedIcon(url, 'letter');
 		});
 }
+*/
