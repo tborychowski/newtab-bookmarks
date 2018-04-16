@@ -41,7 +41,6 @@
 		for (let input of inputs) {
 			const name = input.name;
 			let value = (typeof params[name] === 'undefined' ? '' : params[name]);
-
 			// if name is object, e.g. user[name], userData[address][street], update value to read this correctly
 			if (name.indexOf('[') > -1) {
 				let v = params;
@@ -52,9 +51,8 @@
 				}
 				value = v;
 			}
-
 			// if clear==true and no value = clear field, otherwise - leave it as it was
-			if (clear !== true && (value === undefined || !params[name])) continue;
+			if (clear !== true && (value === undefined || typeof params[name] === 'undefined')) continue;
 
 			// if no value - clear field
 			if (value === null || value === undefined) value = '';

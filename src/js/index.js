@@ -11,11 +11,12 @@ const defaults = {
 	gridgap: 74,
 	iconradius: 10,
 	showlabels: true,
-	iconsize: '74',
+	iconsize: 74,
 	pagebg: '#eee',
 	pagecolor: '#444',
 	rootfolder: 'speeddial',
 	mode: 'icons',
+	view: 'grid',
 };
 
 
@@ -208,7 +209,8 @@ function init () {
 		document.documentElement.style.setProperty('--icon-radius', settings.iconradius + 'px');
 		document.documentElement.style.setProperty('--grid-width', settings.gridwidth + 'px');
 		document.documentElement.style.setProperty('--grid-gap', settings.gridgap + 'px');
-		document.documentElement.style.setProperty('--show-labels', settings.showlabels ? 'block' : 'none');
+		document.documentElement.style.setProperty('--show-labels', settings.showlabels ? 'flex' : 'none');
+		document.body.className = `${settings.view}-view`;
 
 		findSpeedDial(settings.rootfolder)
 			.then(id => {

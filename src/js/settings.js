@@ -6,16 +6,55 @@ const defaults = {
 	gridgap: 74,
 	iconradius: 10,
 	showlabels: true,
-	iconsize: '74',
+	iconsize: 74,
 	pagebg: '#eee',
 	pagecolor: '#444',
 	rootfolder: 'speeddial',
 	mode: 'icons',
+	view: 'grid',
 };
+
+const presetMap = {
+	'icon-grid': {
+		gridwidth: 968,
+		gridgap: 74,
+		iconradius: 10,
+		showlabels: true,
+		iconsize: 74,
+		pagebg: '#eee',
+		pagecolor: '#444',
+		mode: 'icons',
+		view: 'grid',
+	},
+	'metro-tiles': {
+		gridwidth: 2000,
+		gridgap: 5,
+		iconradius: 0,
+		showlabels: false,
+		iconsize: 128,
+		pagebg: '#eee url("https://picsum.photos/1400") 0 0/cover no-repeat',
+		pagecolor: '#444',
+		mode: 'thumbs',
+		view: 'grid',
+	},
+	'list-view': {
+		gridwidth: 800,
+		gridgap: 50,
+		iconradius: 3,
+		showlabels: true,
+		iconsize: 32,
+		pagebg: '#eee',
+		pagecolor: '#444',
+		mode: 'icons',
+		view: 'list',
+	}
+};
+
 let storedSettings = null;
 const $ = s => document.querySelector(s);
 const notify = () => new Toast('Settings saved', 'info');
 const save = settings => browser.storage.local.set({ settings }).then(notify);
+
 
 function updateInputValue (things) {
 	if (things.pagecolor) document.body.style.color = things.pagecolor;
@@ -60,6 +99,18 @@ function initSettings () {
 }
 
 
+function presetClick (e) {
+	const lnk = e.target.closest('a');
+	if (!lnk) return;
+	e.preventDefault();
+	const preset = lnk.getAttribute('href').substr(1);
+	if (presetMap[preset]) {
+		form.set(presetMap[preset]);
+		updateInputValue(presetMap[preset]);
+	}
+}
+
+
 function init () {
 	const formEl = $('#settingsForm');
 	form = new Form(formEl);
@@ -76,6 +127,7 @@ function init () {
 
 	$('.btn-reset').addEventListener('click', reset);
 	$('.btn-clear').addEventListener('click', () => clearCache().then(() => reset(true)));
+	$('.preset-list').addEventListener('click', presetClick);
 
 	updateInputValue(defaults);
 	initSettings();

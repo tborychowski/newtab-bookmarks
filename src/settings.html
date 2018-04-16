@@ -8,69 +8,109 @@
 	<link rel="stylesheet" href="css/toast.css">
 </head>
 <body>
-	<h1>Settings</h1>
+	<div class="col col-left">
+		<h1>Settings</h1>
+		<form id="settingsForm">
+			<div class="row">
+				<label>Folder name</label>
+				<input name="rootfolder" value="speeddial">
+			</div>
 
-	<form id="settingsForm">
-		<div class="row">
-			<label>Folder name</label>
-			<input name="rootfolder" value="speeddial">
-		</div>
+			<div class="row">
+				<label>Mode</label>
+				<label><input name="mode" type="radio" value="icons" checked=""> Icons</label>
+				<label><input name="mode" type="radio" value="thumbs"> Thumbnails (experimental)</label>
+			</div>
 
-		<div class="row">
-			<label>Mode</label>
-			<label><input name="mode" type="radio" value="icons" checked=""> Icons</label>
-			<label><input name="mode" type="radio" value="thumbs"> Thumbnails (experimental)</label>
-		</div>
+			<div class="row">
+				<label>View type</label>
+				<label><input name="view" type="radio" value="grid" checked=""> Grid</label>
+				<label><input name="view" type="radio" value="list"> List view</label>
+			</div>
 
-		<div class="row">
-			<label>Grid width</label>
-			<input name="gridwidth" value="968" type="range" min="400" max="2000">
-			<span class="range-tooltip gridwidth-tooltip" data-for="gridwidth"></span>
-		</div>
+			<div class="row">
+				<label>Grid width</label>
+				<input name="gridwidth" value="968" type="range" min="400" max="2000">
+				<span class="range-tooltip gridwidth-tooltip" data-for="gridwidth"></span>
+			</div>
 
-		<div class="row">
-			<label>Grid spacing</label>
-			<input name="gridgap" value="74" type="range" min="0" max="256">
-			<span class="range-tooltip gridgap-tooltip" data-for="gridgap"></span>
-		</div>
+			<div class="row">
+				<label>Grid spacing</label>
+				<input name="gridgap" value="74" type="range" min="0" max="256">
+				<span class="range-tooltip gridgap-tooltip" data-for="gridgap"></span>
+			</div>
 
-		<div class="row">
-			<label>Icon size</label>
-			<input name="iconsize" value="74" type="range" min="16" max="256">
-			<span class="range-tooltip iconsize-tooltip" data-for="iconsize"></span>
-		</div>
+			<div class="row">
+				<label>Icon size</label>
+				<input name="iconsize" value="74" type="range" min="16" max="256">
+				<span class="range-tooltip iconsize-tooltip" data-for="iconsize"></span>
+			</div>
 
-		<div class="row">
-			<label>Icon radius</label>
-			<input name="iconradius" value="10" type="range" min="0" max="50">
-			<span class="range-tooltip iconradius-tooltip" data-for="iconradius"></span>
-		</div>
+			<div class="row">
+				<label>Icon radius</label>
+				<input name="iconradius" value="10" type="range" min="0" max="50">
+				<span class="range-tooltip iconradius-tooltip" data-for="iconradius"></span>
+			</div>
 
-		<div class="row">
-			<label>Show labels</label>
-			<input name="showlabels" type="checkbox" checked>
-		</div>
+			<div class="row">
+				<label>Show labels</label>
+				<input name="showlabels" type="checkbox" checked>
+			</div>
 
-		<div class="row">
-			<label>Page bg</label>
-			<input name="pagebg" value="#eee">
-		</div>
+			<div class="row">
+				<label>Page bg</label>
+				<input name="pagebg" value="#eee">
+				<small><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/background">css <code>background</code> syntax</a></small>
+			</div>
 
-		<div class="row">
-			<label>Page color</label>
-			<input name="pagecolor" value="#444">
-		</div>
+			<div class="row">
+				<label>Text color</label>
+				<input name="pagecolor" value="#444">
+			</div>
 
-		<div class="row buttons">
-			<button type="button" class="btn-reset">Reset to defaults</button>
-			<button type="submit" class="btn-submit">Save</button>
-		</div>
-	</form>
+			<div class="row buttons">
+				<button type="button" class="btn-reset">Reset to defaults</button>
+				<button type="submit" class="btn-submit">Save</button>
+			</div>
+		</form>
 
-	<button type="button" class="btn-clear">Clear cache</button>
-	<small>This will remove all local cache for icons and settings!</small>
+		<button type="button" class="btn-clear">Clear cache</button>
+		<small>This will remove all local cache for icons and settings!</small>
+	</div>
 
-	<footer></footer>
+	<div class="col col-right">
+		<h2>Presets</h2>
+		<small>Start with a preset and tweak the settings to your taste!</small>
+
+		<ul class="preset-list">
+			<li><a href="#icon-grid">Icon grid</a>
+				<small>
+					968px wide (max - 6 columns),<br>
+					74px icons & spaces,<br>
+					10px border-radius<br>
+				</small>
+			</li>
+			<li><a href="#metro-tiles">Metro Tiles</a>
+				<small>
+					2000px wide<br>
+					128px thumbnails, 5px spacing<br>
+					no border-radius<br>
+					no labels<br>
+					<b>image background!</b>
+				</small>
+			</li>
+			<li><a href="#list-view">List view</a>
+				<small>
+					List view (column layout)
+					900px wide,<br>
+					32px icons & 50px spaces,<br>
+					3px border-radius<br>
+				</small>
+			</li>
+
+		</ul>
+
+	</div>
 
 	<script src="js/form.js"></script>
 	<script src="js/toast.js"></script>

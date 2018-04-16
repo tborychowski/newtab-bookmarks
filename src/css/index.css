@@ -9,6 +9,10 @@ html, body { margin: 0; padding: 0; height: 100%; width: 100%; overflow: hidden;
 	--show-labels: block;
 }
 
+
+
+
+
 body {
 	font: 12px sans-serif;
 	background: var(--bg);
@@ -99,6 +103,7 @@ header .title {
 	margin-top: 10px;
 	padding: 0;
 	overflow: hidden;
+	justify-content: center;
 	display: var(--show-labels);
 }
 .item.folder .thumb { background-size: 80%; }
@@ -121,6 +126,39 @@ header .title {
 
 
 
+@media (max-width: 915px) {
+	.bookmarks { padding-left: 10px; padding-right: 10px; }
+}
+
 @media (max-width: 665px) {
 	.bookmarks { grid-gap: 54px 37px; }
+}
+
+
+
+.list-view { overflow-x: auto; overflow-y: hidden; }
+.list-view .bookmarks {
+	grid-auto-flow: column;
+	grid-template-rows: repeat(auto-fill, 0px);
+	grid-template-columns: repeat(auto-fill, minmax(calc(var(--icon-size) * 4), 1fr));
+	grid-gap: var(--grid-gap) calc(var(--icon-size) / 2);
+	height: calc(100% - var(--icon-size));
+}
+
+.list-view .item { width: 100%; }
+.list-view .item .thumb { float: left; }
+.list-view .item .title {
+	padding: 0;
+	margin-top: 0;
+	overflow: hidden;
+	height: var(--icon-size);
+	align-items: center;
+	justify-content: left;
+	padding-left: 10px;
+	text-align: left;
+}
+
+.list-view .item .letter-thumb {
+	padding-top: 4%;
+	font-size: calc(var(--icon-size) - 5px);
 }
