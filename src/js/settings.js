@@ -32,7 +32,7 @@ const presetMap = {
 		iconradius: 0,
 		showlabels: false,
 		iconsize: 128,
-		pagebg: '#eee url("https://picsum.photos/1400") 0 0/cover no-repeat',
+		pagebg: '#eee url("https://picsum.photos/1800/1200/?random") 0 0/cover no-repeat',
 		pagecolor: '#444',
 		mode: 'thumbs',
 		view: 'grid',

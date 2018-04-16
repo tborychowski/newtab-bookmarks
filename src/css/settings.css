@@ -12,7 +12,7 @@ body * { box-sizing: inherit; }
 
 .col { flex: 1 300px; padding: 20px; }
 .col-left { min-width: 570px; }
-.col-right { background-color: #ddd; box-shadow: 1px 0 2px #3336 inset; }
+.col-right { background-color: #ddd; box-shadow: 1px 0 2px #3336 inset; color: #444; }
 
 .preset-list { margin: 0; padding: 0 0 0 10px; }
 .preset-list li { margin: 30px 0 0 5px; }
