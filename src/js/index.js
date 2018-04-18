@@ -16,7 +16,6 @@ const defaults = {
 	pagecolor: '#444',
 	rootfolder: 'speeddial',
 	mode: 'icons',
-	view: 'grid',
 };
 
 
@@ -210,7 +209,6 @@ function init () {
 		document.documentElement.style.setProperty('--grid-width', settings.gridwidth + 'px');
 		document.documentElement.style.setProperty('--grid-gap', settings.gridgap + 'px');
 		document.documentElement.style.setProperty('--show-labels', settings.showlabels ? 'flex' : 'none');
-		document.body.className = `${settings.view}-view`;
 
 		findSpeedDial(settings.rootfolder)
 			.then(id => {

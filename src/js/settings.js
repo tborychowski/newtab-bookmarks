@@ -11,7 +11,6 @@ const defaults = {
 	pagecolor: '#444',
 	rootfolder: 'speeddial',
 	mode: 'icons',
-	view: 'grid',
 };
 
 const presetMap = {
@@ -37,17 +36,6 @@ const presetMap = {
 		mode: 'thumbs',
 		view: 'grid',
 	},
-	'list-view': {
-		gridwidth: 800,
-		gridgap: 50,
-		iconradius: 3,
-		showlabels: true,
-		iconsize: 32,
-		pagebg: '#eee',
-		pagecolor: '#444',
-		mode: 'icons',
-		view: 'list',
-	}
 };
 
 let storedSettings = null;
