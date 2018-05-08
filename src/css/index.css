@@ -58,6 +58,7 @@ header .title {
 	text-align: center;
 	cursor: pointer;
 	z-index: 10;
+	background: none;
 }
 .btn-back svg { height: 16px; width: 16px; margin: 3px 0 0 -1px; }
 .btn-back path { fill: #888; transition: fill .2s; }
