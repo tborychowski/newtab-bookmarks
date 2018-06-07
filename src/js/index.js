@@ -34,7 +34,7 @@ function letterIcon (item) {
 
 function setItemIcon (item, icon) {
 	const el = document.querySelector(`.item-${item.id} .thumb`);
-	el.style.backgroundImage = `url(${icon})`;
+	if (el && el.style) el.style.backgroundImage = `url(${icon})`;
 }
 
 
@@ -118,6 +118,7 @@ function fetchIcon (url) {
 
 // type, title, url
 function getItemHtml (item) {
+	if (item.type === 'separator') return '<div class="item separator"></div>';
 	if (item.url && item.url.indexOf('http') > 0) {
 		item.url = item.url.substr(item.url.indexOf('http'));
 		item.url = decodeURIComponent(item.url);
