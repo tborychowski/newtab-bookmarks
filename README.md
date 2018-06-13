@@ -19,7 +19,3 @@ Open new tab.
     ```sh
     yarn build
     ```
-
-
-# License
-*MIT*
