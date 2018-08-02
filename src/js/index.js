@@ -4,7 +4,7 @@ const ROOT_FOLDER = { title: 'Bookmarks', id: null };
 const ICON_SERVICE_URL = 'https://borychowski.org/icon/beta2.php?url=';
 const THUMB_SERVICE_URL = 'https://api.letsvalidate.com/v1/thumbs/?url=';
 
-
+const colorHash = new window.ColorHash();
 let btnBack, titleEl, bookmarksEl, currentFolderId, settings;
 const defaults = {
 	gridwidth: 968,
@@ -14,9 +14,19 @@ const defaults = {
 	iconsize: 74,
 	pagebg: '#eee',
 	pagecolor: '#444',
-	rootfolder: 'speeddial',
+	rootfolder: 'Other Bookmarks',
 	mode: 'icons',
 };
+
+
+function isDark (color) {
+	const hex = color.replace('#', '');
+	const c_r = parseInt(hex.substr(0, 2), 16);
+	const c_g = parseInt(hex.substr(2, 2), 16);
+	const c_b = parseInt(hex.substr(4, 2), 16);
+	const brightness = ((c_r * 299) + (c_g * 587) + (c_b * 114)) / 1000;
+	return brightness < 80;
+}
 
 
 function printInstructions () {
@@ -28,13 +38,19 @@ function letterIcon (item) {
 	const el = document.querySelector(`.item-${item.id} .thumb`);
 	if (!el) return;
 	el.classList.add('letter-thumb');
+	const bg = colorHash.hex(item.url.replace(/(^https?:\/\/)|(\/$)/g, ''));
+	el.style.backgroundColor = bg;
+	el.style.color = isDark(bg) ? '#ccc' : '#333';
 	el.innerText = item.title.substr(0, 1).toUpperCase();
 }
 
 
 function setItemIcon (item, icon) {
 	const el = document.querySelector(`.item-${item.id} .thumb`);
-	if (el && el.style) el.style.backgroundImage = `url(${icon})`;
+	if (el && el.style) {
+		if (item.type === 'folder') el.style.maskImage = `url(${icon})`;
+		else el.style.backgroundImage = `url(${icon})`;
+	}
 }
 
 

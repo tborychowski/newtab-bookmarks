@@ -9,7 +9,7 @@ const defaults = {
 	iconsize: 74,
 	pagebg: '#eee',
 	pagecolor: '#444',
-	rootfolder: 'speeddial',
+	rootfolder: 'Other Bookmarks',
 	mode: 'icons',
 };
 
