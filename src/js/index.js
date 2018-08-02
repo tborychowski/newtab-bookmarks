@@ -38,23 +38,16 @@ function setItemIcon (item, icon) {
 }
 
 
-function getDomainFromUrl (url) {
-	let parsed;
-	try { parsed = new URL(url); }
-	catch (e) { parsed = {}; }
-	return parsed.host;
-}
-
-
 function getCachedIcon (url) {
-	url = getDomainFromUrl(url);
-	return browser.storage.local.get(url).then(res => res[url] || null);
+	url = getBaseUrl(url);
+	return browser.storage.local.get(url).then(res => res[url] || '');
 }
 
 
 function setCachedIcon (url, iconUrl) {
+	if (!iconUrl) return;
 	const item = {};
-	item[getDomainFromUrl(url)] = iconUrl;
+	item[getBaseUrl(url)] = iconUrl;
 	return browser.storage.local.set(item);
 }
 
@@ -222,128 +215,3 @@ function init () {
 	window.onpopstate = e => { if (e.state && e.state.id) readFolder(e.state.id, true); };
 }
 init();
-
-
-
-
-
-
-
-
-
-/*
-
-function getBaseUrl (url) {
-	let baseUrl;
-	try { baseUrl = new URL(url); }
-	catch (e) { baseUrl = {}; }
-	return (baseUrl.origin || url).replace(/\/$/, '');
-}
-
-function findIconUrlInMeta (baseUrl, el) {
-	const iconUrl = el.getAttribute('href') || el.getAttribute('content');
-	if (!iconUrl) return '';
-	if (iconUrl.indexOf('http') === 0) return iconUrl;
-	if (iconUrl.indexOf('//') === 0) return 'https:' + iconUrl;
-	if (iconUrl.indexOf('data:image/') === 0) return iconUrl;
-	return baseUrl + '/' + iconUrl.replace(/^\//, '');
-}
-
-function findIconSizeInMeta (el) {
-	let size = el.getAttribute('sizes');
-	if (!size) {
-		const url = el.getAttribute('href') || el.getAttribute('content');
-		const matches = /\d{2,3}x\d{2,3}/.exec(url);
-		if (matches && matches.length) size = matches[0];
-	}
-	if (size) return parseInt(size.split('x')[0], 10);
-	return 0;
-}
-
-function getIconsFromMeta (links, finalUrl) {
-	const icons = [];
-	Array.from(links).forEach(lnk => {
-		const type = lnk.getAttribute('rel') || lnk.getAttribute('property');
-		if (!type) return;
-		const icon = {
-			size: findIconSizeInMeta(lnk),
-			url: findIconUrlInMeta(finalUrl, lnk)
-		};
-		if (type.indexOf('icon') > -1) icon.type = 'icon';
-		else if (type.indexOf('apple-touch') > -1) icon.type = 'apple';
-		else if (type.indexOf('msapplication-TileImage') > -1) icon.type = 'ms';
-		else if (type === 'og:image') icon.type = 'og';
-		else if (type === 'og:image:width') {
-			const size = lnk.getAttribute('content');
-			if (size) icons[icons.length - 1].size = parseInt(size, 10);
-		}
-		if (icon.type) icons.push(icon);
-	});
-	return icons;
-}
-
-
-function getIcons (url) {
-	let finalUrl = url;
-	return fetch(url, { redirect: 'follow' })
-		.then(res => {
-			finalUrl = getBaseUrl(res.url);
-			return res.text();
-		})
-		.then(res => findIconsInHtml(res, finalUrl))
-		.catch(() => getFallbackIcon(url));
-}
-
-
-function findIconsInHtml (res, finalUrl) {
-	const parser = new DOMParser();
-	const doc = parser.parseFromString(res, 'text/html');
-	if (!doc.head) throw new Error('Error parsing URL');
-	const head = doc.head;
-	const icons = getIconsFromMeta(head.querySelectorAll('link,meta'), finalUrl);
-	if (icons.length) return { url: finalUrl, icon: getClosestTo(icons) };
-	return getFavicon(finalUrl);
-}
-
-
-function getFavicon (finalUrl) {
-	return fetch(finalUrl + '/favicon.ico')
-		.then(resp => {
-			if (resp.status === 200) return { url: finalUrl, icon: finalUrl + '/favicon.ico' };
-			throw new Error('Icon not found');
-		});
-}
-
-
-function getFallbackIcon (url) {
-	return fetch(ICON_SERVICE_URL + url).then(res => res.json());
-}
-
-
-
-function getClosestTo (icons, size = 120) {
-	if (!Array.isArray(icons)) icons = [icons];
-	let icon = icons[0], dist = null;
-	icons.forEach(i => {
-		const d = Math.abs(size - i.size);
-		if (dist !== null && d >= dist) return;
-		dist = d;
-		icon = i;
-	});
-	return icon.url || '';
-}
-
-
-
-function fetchIcon (url) {
-	url = getBaseUrl(url);
-	return getIcons(url)
-		.then(res => {
-			setCachedIcon(url, res.icon);
-			return Promise.resolve(res);
-		})
-		.catch(() => {
-			setCachedIcon(url, 'letter');
-		});
-}
-*/
