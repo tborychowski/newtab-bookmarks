@@ -9,7 +9,7 @@
 		"build": "web-ext build --overwrite-dest --source-dir ./src",
 		"sign": "web-ext sign "
 	},
-	"license": "MIT",
+	"license": "GPL-3.0-or-later",
 	"devDependencies": {
 		"web-ext": "^2.4.0"
 	}
