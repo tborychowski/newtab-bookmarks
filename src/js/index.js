@@ -1,7 +1,7 @@
 /* global browser */
 
 const ROOT_FOLDER = { title: 'Bookmarks', id: null };
-const ICON_SERVICE_URL = 'https://borychowski.org/icon/beta.php?url=';
+const ICON_SERVICE_URL = 'https://borychowski.org/icon/beta2.php?url=';
 const THUMB_SERVICE_URL = 'https://api.letsvalidate.com/v1/thumbs/?url=';
 
 
@@ -96,7 +96,7 @@ function getBaseUrl (url) {
 	let baseUrl;
 	try { baseUrl = new URL(url); }
 	catch (e) { baseUrl = {}; }
-	return (baseUrl.origin || url).replace(/\/$/, '');
+	return (baseUrl.origin || url).replace(/\/$/, '') + (baseUrl.pathname || '').replace(/\/$/, '');
 }
 
 
