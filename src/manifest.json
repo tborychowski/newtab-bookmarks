@@ -1,23 +1,26 @@
 {
-  "manifest_version": 2,
-  "name": "newtab-bookmarks",
-  "version": "3.2.0",
-  "author": "Tom",
-  "chrome_url_overrides" : {
-    "newtab": "index.html"
-  },
-  "description":"New tab replacement",
-  "permissions": [
-    "bookmarks",
-    "storage"
-  ],
-  "options_ui": {
-    "page": "settings.html",
-    "open_in_tab": true,
-    "browser_style": true
-  },
-  "icons": {
-    "48": "img/icon.svg",
-    "96": "img/icon.svg"
-  }
+	"manifest_version": 2,
+	"name": "newtab-bookmarks",
+	"version": "4.0.0",
+	"author": "Tom",
+	"chrome_url_overrides": {
+		"newtab": "index.html"
+	},
+	"chrome_settings_overrides": {
+		"homepage": "index.html"
+	},
+	"description": "New tab replacement",
+	"permissions": [
+		"bookmarks",
+		"storage"
+	],
+	"options_ui": {
+		"page": "settings.html",
+		"open_in_tab": true,
+		"browser_style": true
+	},
+	"icons": {
+		"48": "img/icon.svg",
+		"96": "img/icon.svg"
+	}
 }
