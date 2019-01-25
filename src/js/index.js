@@ -128,8 +128,8 @@ function fetchIcon (url) {
 // type, title, url
 function getItemHtml (item) {
 	if (item.type === 'separator') return '<div class="item separator"></div>';
-	if (item.url && item.url.indexOf('http') > 0) {
-		item.url = item.url.substr(item.url.indexOf('http'));
+	if (item.url) {
+		if (item.url.indexOf('http') > 0) item.url = item.url.substr(item.url.indexOf('http'));
 		item.url = decodeURIComponent(item.url);
 	}
 	return `<a href="${item.url || item.id}" class="item ${item.type} item-${item.id}">
