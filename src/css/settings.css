@@ -28,12 +28,14 @@ body * { box-sizing: inherit; }
 }
 
 .row>label { width: 140px; white-space: nowrap; }
-.row input {
+.row input,
+.row textarea {
 	flex: 1;
 	padding: 5px 10px;
 	margin: 0;
 	font: inherit;
 }
+.row textarea { min-height: 2.4em; }
 
 .row input[type=radio],
 .row input[type=checkbox] {

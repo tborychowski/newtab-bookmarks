@@ -11,6 +11,7 @@ const defaults = {
 	pagecolor: '#444',
 	rootfolder: 'Other Bookmarks',
 	mode: 'icons',
+	css: '',
 };
 
 const presetMap = {

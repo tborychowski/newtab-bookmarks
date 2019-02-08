@@ -16,6 +16,7 @@ const defaults = {
 	pagecolor: '#444',
 	rootfolder: 'Other Bookmarks',
 	mode: 'icons',
+	css: '',
 };
 
 
@@ -201,6 +202,13 @@ function onClick (e) {
 }
 
 
+function injectCss (css) {
+	const style = document.createElement('STYLE');
+	style.innerHTML = css;
+	document.head.appendChild(style);
+}
+
+
 function init () {
 	btnBack = document.querySelector('.btn-back');
 	titleEl = document.querySelector('.title');
@@ -226,6 +234,8 @@ function init () {
 				if (history.state && history.state.id) id = history.state.id;
 				readFolder(id);
 			});
+
+		if (settings.css) injectCss(settings.css);
 	});
 
 	window.onpopstate = e => { if (e.state && e.state.id) readFolder(e.state.id, true); };
