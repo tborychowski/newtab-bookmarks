@@ -1,7 +1,7 @@
 {
 	"manifest_version": 2,
 	"name": "newtab-bookmarks",
-	"version": "3.3.0",
+	"version": "3.3.1",
 	"author": "Tom",
 	"chrome_url_overrides": {
 		"newtab": "index.html"
@@ -20,7 +20,7 @@
 		"browser_style": true
 	},
 	"icons": {
-		"48": "img/icon.svg",
-		"96": "img/icon.svg"
+		"48": "img/icon.png",
+		"96": "img/icon.png"
 	}
 }
