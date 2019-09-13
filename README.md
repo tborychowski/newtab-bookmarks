@@ -1,3 +1,8 @@
+THIS PROJECT IS NOT MAINTAINED ANYMORE!
+Check out the new one instead: https://github.com/tborychowski/perfect-home
+
+-----
+
 # New Tab from Bookmarks folder
 New tab extension for Firefox which displays bookmarks from a `speeddial` folder.
 
