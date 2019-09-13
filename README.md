@@ -1,4 +1,6 @@
-THIS PROJECT IS NOT MAINTAINED ANYMORE!
+
+**THIS PROJECT IS NOT MAINTAINED ANYMORE!**
+
 Check out the new one instead: https://github.com/tborychowski/perfect-home
 
 -----
