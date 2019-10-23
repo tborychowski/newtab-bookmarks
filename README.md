@@ -1,7 +1,13 @@
 
 **THIS PROJECT IS NOT MAINTAINED ANYMORE!**
 
-Check out the new one instead: https://github.com/tborychowski/perfect-home
+The service that fetches favicons for the thumbnails will stop working soon.
+
+It is advisable to find an alternative.
+
+Check out the _Perfect Home_: https://github.com/tborychowski/perfect-home
+
+
 
 -----
 
