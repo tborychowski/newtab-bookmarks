@@ -9,9 +9,18 @@ It is advisable to find an alternative.
 
 Check out _Perfect Home_: https://github.com/tborychowski/perfect-home
 
+Same idea, but better in every way :smile:
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
 
 
 -----
+
 
 # New Tab from Bookmarks folder
 New tab extension for Firefox which displays bookmarks from a `speeddial` folder.
