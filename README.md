@@ -7,7 +7,7 @@ It is advisable to find an alternative.
 
 ## Alternative
 
-Check out _Perfect Home_: https://github.com/tborychowski/perfect-home
+Check out _Perfect Home_: https://github.com/perfect-things/perfect-home
 
 Same idea, but better in every way :smile:
 
